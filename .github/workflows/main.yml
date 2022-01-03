@@ -1,0 +1,25 @@
+name: Run Azure Login with OpenID Connect and PowerShell
+on: [push]
+
+permissions:
+      id-token: write
+      contents: read
+      
+jobs: 
+  Windows-latest:
+      runs-on: windows-latest
+      steps:
+        - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+          uses: azure/login@v1
+          with:
+            client-id: 9fb05f17-e16a-4ab2-819d-50a75eb9d294
+            tenant-id: f610c0b7-bd24-4b39-810b-3dc280afb590
+            subscription-id: 8570a647-78f9-4c73-8d5d-a764122bb6e8
+            enable-AzPSSession: true
+
+        - name: 'Get resource group with PowerShell action'
+          uses: azure/powershell@v1
+          with:
+             inlineScript: |
+               Get-AzResourceGroup
+             azPSVersion: "latest"
